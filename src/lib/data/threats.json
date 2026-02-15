@@ -1,0 +1,91 @@
+{
+  "threats": [
+    {
+      "name": "SD Ogerpon-Wellspring",
+      "description": "Swords Dance + Water/Grass STAB",
+      "checks": ["Toxapex", "Corviknight", "Tornadus-Therian", "Dragonite"],
+      "weakness": ["Ground", "Flying", "Poison", "Bug"]
+    },
+    {
+      "name": "SD Ogerpon-Hearthflame",
+      "description": "Swords Dance + Fire/Grass STAB with Mold Breaker",
+      "checks": ["Dragapult", "Heatran", "Toxapex", "Walking Wake"],
+      "weakness": ["Ground", "Flying", "Poison", "Rock"]
+    },
+    {
+      "name": "Sun Teams (Gouging Fire + Walking Wake)",
+      "description": "Protosynthesis boosted attackers under sun",
+      "checks": ["Ting-Lu", "Dondozo", "Heatran (Flash Fire)"],
+      "weakness": ["Water", "Ground", "Rock"]
+    },
+    {
+      "name": "Kingambit",
+      "description": "Supreme Overlord sweeper with Sucker Punch",
+      "checks": ["Great Tusk", "Zamazenta", "Iron Valiant"],
+      "weakness": ["Fighting", "Fire", "Ground"]
+    },
+    {
+      "name": "Gholdengo",
+      "description": "Good as Gold blocks status, Nasty Plot sweeper",
+      "checks": ["Ting-Lu", "Heatran", "Darkrai"],
+      "weakness": ["Fire", "Ground", "Ghost", "Dark"]
+    },
+    {
+      "name": "Dragon Dance Roaring Moon",
+      "description": "Fast setup sweeper under sun",
+      "checks": ["Clefable", "Iron Valiant", "Corviknight"],
+      "weakness": ["Fairy", "Ice", "Fighting", "Bug", "Dragon"]
+    },
+    {
+      "name": "Rain Teams (Urshifu-Rapid)",
+      "description": "Surging Strikes spam + Swift Swim support",
+      "checks": ["Toxapex", "Slowking-Galar", "Ferrothorn"],
+      "weakness": ["Grass", "Electric"]
+    },
+    {
+      "name": "Dragapult",
+      "description": "Fast pivot or Dragon Dance sweeper",
+      "checks": ["Kingambit", "Ting-Lu", "Clefable"],
+      "weakness": ["Ice", "Ghost", "Dragon", "Dark", "Fairy"]
+    },
+    {
+      "name": "Volcarona",
+      "description": "Quiver Dance sweeper",
+      "checks": ["Heatran", "Toxapex", "Dondozo"],
+      "weakness": ["Rock", "Water", "Flying"]
+    },
+    {
+      "name": "Iron Valiant",
+      "description": "Mixed attacker or SD sweeper",
+      "checks": ["Corviknight", "Toxapex", "Dragapult"],
+      "weakness": ["Poison", "Ghost", "Steel", "Flying", "Psychic", "Fairy"]
+    }
+  ],
+  "cores": [
+    {
+      "name": "FWG Core (Fire/Water/Grass)",
+      "pokemon": ["Heatran", "Toxapex", "Ferrothorn"],
+      "description": "Classic defensive core with type synergy"
+    },
+    {
+      "name": "Sun Offense",
+      "pokemon": ["Walking Wake", "Gouging Fire", "Roaring Moon"],
+      "description": "Protosynthesis abusers under sun"
+    },
+    {
+      "name": "Dark Spam",
+      "pokemon": ["Kingambit", "Darkrai", "Roaring Moon"],
+      "description": "Pursuit-trap and overwhelm Psychic/Ghost types"
+    },
+    {
+      "name": "Semistall Core",
+      "pokemon": ["Toxapex", "Gliscor", "Corviknight"],
+      "description": "Regenerator + Poison Heal + hazard control"
+    },
+    {
+      "name": "Balance Core",
+      "pokemon": ["Gholdengo", "Great Tusk", "Dragapult"],
+      "description": "Hazards + removal + offensive pressure"
+    }
+  ]
+}
