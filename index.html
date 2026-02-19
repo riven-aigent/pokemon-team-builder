@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Team Builder | Riven ⚡</title>
+    <meta name="description" content="Build and analyze Pokemon Showdown teams for OU and other formats">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a14;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        
+        .format-selector {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .format-selector select {
+            padding: 12px 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: #111;
+            color: #fff;
+            font-size: 1rem;
+            margin: 0 10px;
+        }
+        
+        .team-builder {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .pokemon-slot {
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 300px;
+        }
+        
+        .pokemon-slot.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        
+        .pokemon-slot.empty:hover {
+            opacity: 1;
+            border-color: #ff6b6b;
+        }
+        
+        .pokemon-slot h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .pokemon-info {
+            margin-bottom: 15px;
+        }
+        
+        .pokemon-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .pokemon-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .type-fire { background: #ff6b6b; color: #000; }
+        .type-water { background: #4ecdc4; color: #000; }
+        .type-grass { background: #51cf66; color: #000; }
+        .type-electric { background: #ffd43b; color: #000; }
+        .type-ice { background: #74c0fc; color: #000; }
+        .type-fighting { background: #fa5252; color: #fff; }
+        .type-poison { background: #d948d9; color: #fff; }
+        .type-ground { background: #d9a74c; color: #000; }
+        .type-flying { background: #91a7f2; color: #000; }
+        .type-psychic { background: #ff6bfb; color: #000; }
+        .type-bug { background: #8ce99a; color: #000; }
+        .type-rock { background: #c99137; color: #fff; }
+        .type-ghost { background: #8f6dd9; color: #fff; }
+        .type-dragon { background: #6b8cff; color: #000; }
+        .type-dark { background: #343a40; color: #fff; }
+        .type-steel { background: #adb5bd; color: #000; }
+        .type-fairy { background: #f783ac; color: #000; }
+        .type-normal { background: #868e96; color: #fff; }
+        
+        .moves-list {
+            margin-top: 10px;
+        }
+        
+        .move-item {
+            padding: 6px 10px;
+            background: #2a2a3e;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .team-actions {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .team-actions button {
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .export-btn {
+            background: #4ecdc4;
+            color: #000;
+        }
+        
+        .export-btn:hover {
+            background: #3dbdb0;
+        }
+        
+        .clear-btn {
+            background: #ff6b6b;
+            color: #fff;
+        }
+        
+        .clear-btn:hover {
+            background: #ff5252;
+        }
+        
+        .analysis-section {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+        
+        .analysis-section h2 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .weaknesses, .resistances {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .weakness-item, .resistance-item {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .weakness-item {
+            background: #ff6b6b;
+            color: #000;
+        }
+        
+        .resistance-item {
+            background: #51cf66;
+            color: #000;
+        }
+        
+        @media (max-width: 768px) {
+            .team-builder {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Pokemon Team Builder</h1>
+            <p>Build and analyze Pokemon Showdown teams for OU, Ubers, and other formats</p>
+        </header>
+        
+        <div class="format-selector">
+            <select id="format-select">
+                <option value="ou">OU (OverUsed)</option>
+                <option value="uu">UU (UnderUsed)</option>
+                <option value="ru">RU (RarelyUsed)</option>
+                <option value="nu">NU (NeverUsed)</option>
+                <option value="pu">PU</option>
+                <option value="ubers">Ubers</option>
+                <option value="monotype">Monotype</option>
+                <option value="nationaldex">National Dex</option>
+            </select>
+        </div>
+        
+        <div class="team-builder" id="team-builder">
+            <!-- Pokemon slots will be generated here -->
+        </div>
+        
+        <div class="team-actions">
+            <button class="export-btn" onclick="exportTeam()">Export to Showdown</button>
+            <button class="clear-btn" onclick="clearTeam()">Clear Team</button>
+        </div>
+        
+        <div class="analysis-section">
+            <h2>Team Analysis</h2>
+            <div class="weaknesses">
+                <span class="weakness-item">4x Weak: Fire</span>
+                <span class="weakness-item">2x Weak: Ice, Rock</span>
+            </div>
+            <div class="resistances">
+                <span class="resistance-item">Resists: Water, Electric</span>
+                <span class="resistance-item">Immune: Ground</span>
+            </div>
+            <p>Click on empty slots to add Pokemon. Analysis updates automatically.</p>
+        </div>
+    </div>
+
+    <script>
+        // Sample Pokemon data (simplified)
+        const pokemonData = {
+            'dragapult': {
+                name: 'Dragapult',
+                types: ['Dragon', 'Ghost'],
+                moves: ['Draco Meteor', 'Shadow Ball', 'U-turn', 'Will-O-Wisp']
+            },
+            'ogerpon': {
+                name: 'Ogerpon',
+                types: ['Grass'],
+                moves: ['Ivy Cudgel', 'Stomping Tantrum', 'Knock Off', 'Spiky Shield']
+            },
+            'ironhands': {
+                name: 'Iron Hands',
+                types: ['Fighting', 'Electric'],
+                moves: ['Drain Punch', 'Wild Charge', 'Ice Punch', 'Bulk Up']
+            },
+            'fluttermane': {
+                name: 'Flutter Mane',
+                types: ['Fairy', 'Ghost'],
+                moves: ['Moonblast', 'Shadow Ball', 'Dazzling Gleam', 'Protect']
+            },
+            'gholdengo': {
+                name: 'Gholdengo',
+                types: ['Steel', 'Ghost'],
+                moves: ['Make It Rain', 'Shadow Ball', 'Sludge Bomb', 'Thunder Wave']
+            },
+            'landorus': {
+                name: 'Landorus-Therian',
+                types: ['Ground', 'Flying'],
+                moves: ['Earthquake', 'U-turn', 'Stone Edge', 'Stealth Rock']
+            }
+        };
+        
+        let team = Array(6).fill(null);
+        
+        function renderTeamBuilder() {
+            const container = document.getElementById('team-builder');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 6; i++) {
+                const slot = document.createElement('div');
+                slot.className = team[i] ? 'pokemon-slot' : 'pokemon-slot empty';
+                slot.dataset.index = i;
+                
+                if (team[i]) {
+                    const pokemon = pokemonData[team[i]];
+                    slot.innerHTML = `
+                        <h3>Pokemon ${i + 1}</h3>
+                        <div class="pokemon-info">
+                            <div class="pokemon-name">${pokemon.name}</div>
+                            <div>
+                                ${pokemon.types.map(type => 
+                                    `<span class="pokemon-type type-${type.toLowerCase()}">${type}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div class="moves-list">
+                            ${pokemon.moves.map(move => 
+                                `<div class="move-item">${move}</div>`
+                            ).join('')}
+                        </div>
+                    `;
+                } else {
+                    slot.innerHTML = '<h3>+ Add Pokemon</h3>';
+                    slot.addEventListener('click', () => openPokemonSelector(i));
+                }
+                
+                container.appendChild(slot);
+            }
+        }
+        
+        function openPokemonSelector(slotIndex) {
+            // In a real app, this would open a modal with Pokemon selection
+            // For demo, we'll just add a random Pokemon
+            const pokemonKeys = Object.keys(pokemonData);
+            const randomPokemon = pokemonKeys[Math.floor(Math.random() * pokemonKeys.length)];
+            team[slotIndex] = randomPokemon;
+            renderTeamBuilder();
+        }
+        
+        function exportTeam() {
+            let exportText = '';
+            team.forEach((pokemonKey, index) => {
+                if (pokemonKey) {
+                    const pokemon = pokemonData[pokemonKey];
+                    exportText += `${pokemon.name} @ \n`;
+                    exportText += `Ability: \n`;
+                    exportText += `EVs: \n`;
+                    exportText += `- ${pokemon.moves.join('\n- ')}\n\n`;
+                }
+            });
+            
+            if (exportText) {
+                navigator.clipboard.writeText(exportText).then(() => {
+                    alert('Team exported to clipboard! Paste into Pokemon Showdown.');
+                });
+            } else {
+                alert('Add some Pokemon to your team first!');
+            }
+        }
+        
+        function clearTeam() {
+            if (confirm('Clear entire team?')) {
+                team = Array(6).fill(null);
+                renderTeamBuilder();
+            }
+        }
+        
+        // Initialize
+        renderTeamBuilder();
+        
+        // Format selector
+        document.getElementById('format-select').addEventListener('change', (e) => {
+            // In a real app, this would filter available Pokemon by format
+            console.log('Format changed to:', e.target.value);
+        });
+    </script>
+</body>
+</html>
